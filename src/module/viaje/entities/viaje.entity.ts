@@ -1,8 +1,11 @@
+import { EstadoViaje } from 'src/module/estado-viaje/entities/estado-viaje.entity';
+import { Reporte } from 'src/module/reporte/entities/reporte.entity';
 import { Reserva } from 'src/module/reserva/entities/reserva.entity';
+import { Pasajero } from 'src/module/pasajero/entities/pasajero.entity';
 import { Vehiculo } from 'src/module/vehiculo/entities/vehiculo.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, OneToOne, ManyToMany } from 'typeorm';
 
-@Entity('viajes')
+@Entity('viaje')
 export class Viaje {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -58,13 +61,18 @@ export class Viaje {
   @Column('timestamp')
   hora_fin_real: Date;
 
+  @ManyToOne(() => EstadoViaje, estadoViaje => estadoViaje.viajes)
+  estadoViaje: EstadoViaje;
+
   @ManyToOne(() => Vehiculo, vehiculo => vehiculo.viajes)
-  @JoinColumn({ name: 'vehiculo_id' })
   vehiculo: Vehiculo;
 
-  @OneToOne(() => Reserva, reserva => reserva.viaje)
-  reserva: Reserva;
-
- @OneToMany(() => Reserva, reserva => reserva.viaje)
+  @OneToMany(() => Reserva, reserva => reserva.viaje)
   reservas: Reserva[];
+
+  @ManyToMany(() => Pasajero, pasajero => pasajero.viajes)
+  pasajeros: Pasajero[];
+
+  @OneToOne(() => Reporte, reporte => reporte.viaje, { nullable: true })
+  reporte: Reporte;
 }

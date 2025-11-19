@@ -13,16 +13,24 @@ export class ViajeService {
   ) {}
 
   async create(createViajeDto: CreateViajeDto): Promise<Viaje> {
-    const viaje = this.viajeRepository.create(createViajeDto);
+    const viaje = this.viajeRepository.create({
+      ...createViajeDto,
+      vehiculo: { id: createViajeDto.vehiculo_id },
+    });
     return this.viajeRepository.save(viaje);
   }
 
   async findAll(): Promise<Viaje[]> {
-    return this.viajeRepository.find({ relations: ['vehiculo'] });
+    return this.viajeRepository.find({ 
+      relations: ['vehiculo', 'reservas', 'reporte', 'reporte.tipoReporte', 'reporte.gravedad'] 
+    });
   }
 
   async findOne(id: string): Promise<Viaje> {
-    const viaje = await this.viajeRepository.findOne({ where: { id }, relations: ['vehiculo'] });
+    const viaje = await this.viajeRepository.findOne({ 
+      where: { id }, 
+      relations: ['vehiculo', 'reservas', 'reporte', 'reporte.tipoReporte', 'reporte.gravedad'] 
+    });
     if (!viaje) {
       throw new NotFoundException(`Viaje con id ${id} no encontrado`);
     }
@@ -30,13 +38,16 @@ export class ViajeService {
   }
 
   async update(id: string, updateViajeDto: UpdateViajeDto): Promise<Viaje> {
-    await this.findOne(id); // Validate that it exists
+    await this.findOne(id);
     await this.viajeRepository.update(id, updateViajeDto);
-    return this.viajeRepository.findOne({ where: { id }, relations: ['vehiculo'] }) as Promise<Viaje>;
+    return this.viajeRepository.findOne({ 
+      where: { id }, 
+      relations: ['vehiculo', 'reservas', 'reporte', 'reporte.tipoReporte', 'reporte.gravedad'] 
+    }) as Promise<Viaje>;
   }
 
   async remove(id: string): Promise<void> {
-    await this.findOne(id); // Validate that it exists
+    await this.findOne(id);
     await this.viajeRepository.delete(id);
   }
 }

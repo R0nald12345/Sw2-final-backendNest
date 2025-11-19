@@ -3,7 +3,7 @@ import { Pasajero } from 'src/module/pasajero/entities/pasajero.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { EstadoReserva } from 'src/module/estado-reserva/entities/estado-reserva.entity';
 
-@Entity('reserva')
+@Entity('reservas')
 export class Reserva {
   @PrimaryGeneratedColumn('uuid')
   id: string;

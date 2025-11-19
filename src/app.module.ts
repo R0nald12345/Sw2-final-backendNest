@@ -18,6 +18,10 @@ import { TipoPagoModule } from './module/tipo-pago/tipo-pago.module';
 import { PagoModule } from './module/pago/pago.module';
 import { ReservaModule } from './module/reserva/reserva.module';
 import { EstadoReservaModule } from './module/estado-reserva/estado-reserva.module';
+import { ReporteModule } from './module/reporte/reporte.module';
+import { TipoReporteModule } from './module/tipo-reporte/tipo-reporte.module';
+import { GravedadModule } from './module/gravedad/gravedad.module';
+import { EstadoViajeModule } from './module/estado-viaje/estado-viaje.module';
 
 @Module({
   imports: [
@@ -41,6 +45,10 @@ import { EstadoReservaModule } from './module/estado-reserva/estado-reserva.modu
     PagoModule,
     ReservaModule,
     EstadoReservaModule,
+    ReporteModule,
+    TipoReporteModule,
+    GravedadModule,
+    EstadoViajeModule,
   ],
   controllers: [AppController],
   providers: [
